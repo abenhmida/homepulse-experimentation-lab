@@ -1,0 +1,28 @@
+plugins {
+    alias(libs.plugins.kotlinJvm) apply false
+}
+
+allprojects {
+    group = "com.krizaldis.homepulse"
+    version = "0.1.0-SNAPSHOT"
+}
+
+subprojects {
+    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+        extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension> {
+            jvmToolchain(21)
+        }
+
+        tasks.withType<Test>().configureEach {
+            useJUnitPlatform()
+        }
+
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+            compilerOptions {
+                freeCompilerArgs.addAll(
+                    "-Xjsr305=strict"
+                )
+            }
+        }
+    }
+}

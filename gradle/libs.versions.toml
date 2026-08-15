@@ -3,6 +3,28 @@
 
 [versions]
 kotlin-gradle-plugin = "2.3.20"
+kotlin = "2.2.20"
+kotlinxCoroutines = "1.10.2"
+junit = "6.0.0"
+kafka = "4.1.0"
+jackson = "2.19.2"
+slf4j = "2.0.17"
 
 [libraries]
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+
+kafkaClients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
+
+kotlinxCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+
+jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+
+jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+
+slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+junitBom = { module = "org.junit:junit-bom", version.ref = "junit" }
+
+junitJupiter = { module = "org.junit.jupiter:junit-jupiter" }
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
