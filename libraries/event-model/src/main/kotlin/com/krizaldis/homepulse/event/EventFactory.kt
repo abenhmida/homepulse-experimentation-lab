@@ -23,7 +23,7 @@ class EventFactory(
         val metadata = EventMetadata(
             eventId = UUID.randomUUID().toString(),
             eventType = EventType.TEMPERATURE_MEASURED,
-            eventVersion = 1,
+            eventVersion = EventVersion(1),
             occurredAt = now,
             producedAt = now,
             homeId = homeId.value,

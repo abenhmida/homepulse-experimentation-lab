@@ -1,5 +1,7 @@
 package com.krizaldis.homepulse.serialization
 
+import com.krizaldis.homepulse.device.DeviceId
+import com.krizaldis.homepulse.device.HomeId
 import com.krizaldis.homepulse.event.EventFactory
 import com.krizaldis.homepulse.event.TemperatureMeasured
 import com.krizaldis.homepulse.event.TemperatureUnit
@@ -21,8 +23,8 @@ class EventSerializerTest {
 
         val event = EventFactory(clock)
             .temperatureMeasured(
-                homeId = "home-001",
-                deviceId = "thermostat-01",
+                homeId = HomeId("home-001"),
+                deviceId = DeviceId("thermostat-01"),
                 temperature = 21.7,
                 unit = TemperatureUnit.CELSIUS
             )

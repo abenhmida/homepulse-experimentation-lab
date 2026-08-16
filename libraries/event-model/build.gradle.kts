@@ -5,6 +5,7 @@ plugins {
 dependencies {
     api(libs.jacksonDatabind)
     api(libs.jacksonKotlin)
+    api(libs.jacksonDatatypeJsr310)
 
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)

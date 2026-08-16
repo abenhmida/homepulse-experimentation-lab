@@ -1,5 +1,7 @@
 package com.krizaldis.homepulse.events
 
+import com.krizaldis.homepulse.device.DeviceId
+import com.krizaldis.homepulse.device.HomeId
 import com.krizaldis.homepulse.event.EventFactory
 import com.krizaldis.homepulse.event.EventType
 import com.krizaldis.homepulse.event.TemperatureUnit
@@ -22,8 +24,8 @@ class EventFactoryTest {
 
         val factory = EventFactory(clock)
         val event = factory.temperatureMeasured(
-            homeId = "home-001",
-            deviceId = "thermostat-living-room-01",
+            homeId = HomeId("home-001"),
+            deviceId = DeviceId("thermostat-living-room-01"),
             temperature = 21.7,
             unit = TemperatureUnit.CELSIUS
         )
@@ -36,7 +38,7 @@ class EventFactoryTest {
 
         assertEquals(
             1,
-            event.metadata.eventVersion
+            event.metadata.eventVersion.value
         )
 
         assertEquals(
