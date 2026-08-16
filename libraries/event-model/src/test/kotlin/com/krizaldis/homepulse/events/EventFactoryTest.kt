@@ -1,5 +1,8 @@
 package com.krizaldis.homepulse.events
 
+import com.krizaldis.homepulse.event.EventFactory
+import com.krizaldis.homepulse.event.EventType
+import com.krizaldis.homepulse.event.TemperatureUnit
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

@@ -1,5 +1,7 @@
-package com.krizaldis.homepulse.events
+package com.krizaldis.homepulse.event
 
+import com.krizaldis.homepulse.device.DeviceId
+import com.krizaldis.homepulse.device.HomeId
 import java.time.Clock
 import java.time.Instant
 import java.util.UUID
@@ -8,8 +10,8 @@ class EventFactory(
     private val clock: Clock = Clock.systemUTC()
 ) {
     fun temperatureMeasured(
-        homeId: String,
-        deviceId: String,
+        homeId: HomeId,
+        deviceId: DeviceId,
         temperature: Double,
         unit: TemperatureUnit,
         correlationId: String = UUID.randomUUID().toString(),
@@ -24,11 +26,11 @@ class EventFactory(
             eventVersion = 1,
             occurredAt = now,
             producedAt = now,
-            homeId = homeId,
-            deviceId = deviceId,
+            homeId = homeId.value,
+            deviceId = deviceId.value,
             correlationId = correlationId,
             causationId = causationId,
-            source = deviceId
+            source = deviceId.value
         )
 
         return DomainEvent(

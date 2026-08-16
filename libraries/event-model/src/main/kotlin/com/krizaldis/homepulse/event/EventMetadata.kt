@@ -1,11 +1,11 @@
-package com.krizaldis.homepulse.events
+package com.krizaldis.homepulse.event
 
 import java.time.Instant
 
 data class EventMetadata(
     val eventId: String,
     val eventType: EventType,
-    val eventVersion: Int,
+    val eventVersion: EventVersion,
     val occurredAt: Instant,
     val producedAt: Instant,
     val homeId: String,
