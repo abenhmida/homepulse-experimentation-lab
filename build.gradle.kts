@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.kotlinJvm) apply false
+    alias(libs.plugins.springBoot) apply false
+    alias(libs.plugins.dependencyManagement) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 allprojects {

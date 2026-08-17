@@ -10,6 +10,9 @@ kafka = "4.1.0"
 jackson = "2.19.2"
 slf4j = "2.0.17"
 micrometer = "1.17.0"
+springBoot = "3.4.2"
+dependencyManagement = "1.1.7"
+
 
 aws = "2.53.0"
 [libraries]
@@ -36,6 +39,15 @@ awsDynamodb = { module = "software.amazon.awssdk:dynamodb" }
 micrometerCore = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
 
+
+springBootStarter = { module = "org.springframework.boot:spring-boot-starter" }
+springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web" }
+springBootStarterActuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test" }
+
 [plugins]
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
+dependencyManagement = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
+
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
