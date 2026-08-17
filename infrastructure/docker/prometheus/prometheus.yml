@@ -15,3 +15,10 @@ scrape_configs:
     static_configs:
       - targets:
           - "state-service:8080"
+
+  - job_name: "homepulse-device-simulator"
+    metrics_path: /actuator/prometheus
+
+    static_configs:
+      - targets:
+          - "device-simulator:8080"

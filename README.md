@@ -18,7 +18,7 @@ HomePulse follows a microservices architecture centered around a Kafka event bac
 
 - **Event Gateway**: The entry point for external events and commands.
 - **State Service**: A Spring Boot-based service that consumes raw events and projects them into a queryable device state.
-- **Device Simulator**: Simulates a fleet of smart home devices (sensors, lights, etc.) generating traffic.
+- **Device Simulator**: A Spring Boot-based service that simulates a fleet of smart home devices (sensors, lights, etc.) generating traffic.
 - **Infrastructure**: Local development environment using Docker Compose (Kafka, DynamoDB Local, Prometheus, Grafana).
 
 ### Architecture Decisions (ADRs)
@@ -86,7 +86,8 @@ The project's design is documented through Architectural Decision Records in `do
 Once the project is running, you can access:
 - **Grafana**: `http://localhost:3000` (HomePulse Overview Dashboard)
 - **Prometheus**: `http://localhost:9090`
-- **Spring Boot Metrics**: `http://localhost:8080/actuator/prometheus`
+- **Spring Boot Metrics (State Service)**: `http://localhost:8080/actuator/prometheus`
+- **Spring Boot Metrics (Device Simulator)**: `http://localhost:8081/actuator/prometheus`
 
 ## 🧪 Experiments
 Check `docs/labs/` for guided experiments, such as:
