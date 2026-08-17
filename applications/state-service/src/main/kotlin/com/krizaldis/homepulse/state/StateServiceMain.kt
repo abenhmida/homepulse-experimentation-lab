@@ -14,7 +14,7 @@ fun main() = runBlocking {
                     "KAFKA_BOOTSTRAP_SERVERS",
                     "localhost:9092"
                 ),
-                clientId = "state-service2",
+                clientId = "state-service",
                 groupId = "state-service"
             )
         ).create()
