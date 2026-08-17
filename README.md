@@ -78,8 +78,15 @@ The project's design is documented through Architectural Decision Records in `do
 3. **Run Services**:
    Use Gradle to run individual services or the simulator:
    ```bash
-   ./gradlew :applications:device-simulator:run
+   ./gradlew :applications:device-simulator:bootRun
    ./gradlew :applications:state-service:bootRun
+   ```
+
+   **Native Compilation**:
+   Both services support Spring Native compilation via GraalVM. To build native images:
+   ```bash
+   ./gradlew :applications:state-service:nativeCompile
+   ./gradlew :applications:device-simulator:nativeCompile
    ```
 
 ## 📈 Observability

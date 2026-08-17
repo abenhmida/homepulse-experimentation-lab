@@ -12,7 +12,8 @@ slf4j = "2.0.17"
 micrometer = "1.17.0"
 springBoot = "3.4.2"
 dependencyManagement = "1.1.7"
-
+nativeBuildTools = "0.10.4"
+graalvm = "23.1.2"
 
 aws = "2.53.0"
 [libraries]
@@ -43,7 +44,11 @@ micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-p
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter" }
 springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web" }
 springBootStarterActuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation"}
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test" }
+
+spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot" }
+graalvm-native-build-tools = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "graalvm" }
 
 [plugins]
 springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
@@ -51,3 +56,5 @@ dependencyManagement = { id = "io.spring.dependency-management", version.ref = "
 
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }

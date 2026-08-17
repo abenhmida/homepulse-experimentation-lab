@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.springBoot) apply false
     alias(libs.plugins.dependencyManagement) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    id("org.graalvm.buildtools.native") version "0.10.4" apply false
 }
 
 allprojects {

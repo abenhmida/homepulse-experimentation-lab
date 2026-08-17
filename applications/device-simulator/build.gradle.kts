@@ -3,12 +3,13 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.springBoot)
     alias(libs.plugins.dependencyManagement)
+    id("org.graalvm.buildtools.native")
     kotlin("plugin.spring") version "2.0.21"
     application
 }
 
 application {
-    mainClass.set("com.krizaldis.homepulse.simulator.DeviceSimulatorApplicationKt")  // Set your main class
+    mainClass.set("com.krizaldis.homepulse.simulator.DeviceSimulatorApplicationKt")
 }
 
 dependencies {
@@ -29,10 +30,9 @@ dependencies {
     testImplementation(libs.junitJupiter)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "21"
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
 
