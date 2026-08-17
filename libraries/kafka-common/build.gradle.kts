@@ -8,7 +8,12 @@ dependencies {
     api(libs.jacksonKotlin)
     api(libs.jacksonDatatypeJsr310)
 
+    implementation(project(":libraries:event-model"))
+
     implementation(libs.kotlinxSerializationJson)
+    implementation(libs.kotlinxCoroutinesCore)
+
+    api(libs.kafkaClients)
 
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)

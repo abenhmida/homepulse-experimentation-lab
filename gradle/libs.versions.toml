@@ -13,6 +13,7 @@ slf4j = "2.0.17"
 [libraries]
 
 kafkaClients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
+kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version= "1.11.0" }
 
 kotlinxCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
@@ -29,3 +30,4 @@ junitJupiterPlatform = {module = "org.junit.platform:junit-platform-launcher"}
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

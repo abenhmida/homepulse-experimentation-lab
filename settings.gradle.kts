@@ -5,6 +5,18 @@
  * For more detailed information on multi-project builds, please refer to https://docs.gradle.org/9.5.1/userguide/multi_project_builds.html in the Gradle documentation.
  */
 
+rootProject.name = "homepulse"
+
+include(
+    ":libraries:event-model",
+    ":libraries:kafka-common",
+    ":applications:device-simulator",
+    ":applications:event-gateway",
+    ":applications:state-service",
+)
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -19,12 +31,3 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "homepulse"
-
-include(
-    ":applications:device-simulator",
-    ":applications:event-gateway",
-    ":applications:state-service",
-    ":libraries:event-model"
-)
