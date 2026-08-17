@@ -9,11 +9,13 @@ junit = "6.0.0"
 kafka = "4.1.0"
 jackson = "2.19.2"
 slf4j = "2.0.17"
+micrometer = "1.17.0"
 
+aws = "2.53.0"
 [libraries]
 
 kafkaClients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
-kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version= "1.11.0" }
+kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }
 
 kotlinxCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
@@ -26,7 +28,13 @@ slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 junitBom = { module = "org.junit:junit-bom", version.ref = "junit" }
 
 junitJupiter = { module = "org.junit.jupiter:junit-jupiter" }
-junitJupiterPlatform = {module = "org.junit.platform:junit-platform-launcher"}
+junitJupiterPlatform = { module = "org.junit.platform:junit-platform-launcher" }
+
+awssdkBom = { module = "software.amazon.awssdk:bom", version.ref = "aws" }
+awsDynamodb = { module = "software.amazon.awssdk:dynamodb" }
+
+micrometerCore = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

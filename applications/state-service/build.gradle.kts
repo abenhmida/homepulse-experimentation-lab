@@ -21,4 +21,10 @@ dependencies {
 
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)
+
+    implementation(platform(libs.awssdkBom))
+    implementation(libs.awsDynamodb)
+
+    implementation(libs.micrometerCore)
+    implementation(libs.micrometer.registry.prometheus)
 }

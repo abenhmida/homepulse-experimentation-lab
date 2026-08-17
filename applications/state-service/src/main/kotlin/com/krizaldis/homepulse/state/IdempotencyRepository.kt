@@ -1,7 +1,8 @@
 package com.krizaldis.homepulse.state
 
 interface IdempotencyRepository {
-    suspend fun tryAquire(
-        eventId: String
+    suspend fun tryAcquire(
+        eventId: String,
+        deviceId: String
     ): Boolean
 }

@@ -15,6 +15,7 @@ class JsonEventSerializerTest {
                 eventId = "event-1",
                 homeId = "home-1",
                 deviceId = "thermostat-1",
+                sequenceNumber = 1L,
                 temperature = 21.5,
                 occurredAt = "2026-08-16T10:00:00Z"
             )

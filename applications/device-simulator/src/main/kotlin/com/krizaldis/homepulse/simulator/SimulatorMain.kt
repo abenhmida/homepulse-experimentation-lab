@@ -34,6 +34,7 @@ fun main() = runBlocking {
         while (true) {
             val event = DeviceTemperatureReported(
                 eventId = UUID.randomUUID().toString(),
+                sequenceNumber = Random.nextLong(),
                 homeId = "home-001",
                 deviceId = "thermostat-01",
                 temperature = Random.nextDouble(
