@@ -10,6 +10,7 @@ rootProject.name = "homepulse"
 include(
     ":libraries:event-model",
     ":libraries:kafka-common",
+    ":libraries:observability",
     ":applications:device-simulator",
     ":applications:event-gateway",
     ":applications:state-service",
@@ -31,3 +32,4 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+include("libraries:observability")

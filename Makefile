@@ -18,6 +18,8 @@ ps:
 kafka-topics:
 	docker exec -it homepulse-kafka /opt/kafka/bin/kafka-topics.sh \
 	--bootstrap-server localhost:9092 --list
+build:
+	./gradlew build
 
 test:
 	./gradlew clean test

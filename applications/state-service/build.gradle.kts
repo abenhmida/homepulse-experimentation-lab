@@ -57,6 +57,7 @@ dependencies {
 
     implementation(project(":libraries:event-model"))
     implementation(project(":libraries:kafka-common"))
+    implementation(project(":libraries:observability"))
 
     implementation(libs.kotlinxCoroutinesCore)
     implementation(libs.kotlinxSerializationJson)
@@ -64,7 +65,7 @@ dependencies {
     implementation(libs.kafkaClients)
     implementation(libs.jacksonDatabind)
     implementation(libs.jacksonKotlin)
-    implementation(libs.slf4jApi)
+    implementation(libs.slf4j.api)
 
     testImplementation(libs.springBootStarterTest)
     testImplementation(platform(libs.junitBom))

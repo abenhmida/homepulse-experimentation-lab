@@ -1,5 +1,6 @@
 package com.krizaldis.homepulse.kafka
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.krizaldis.homepulse.event.DeviceTemperatureReported
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test
 class JsonEventSerializerTest {
 
     private val sut = JsonEventSerializer()
+    private val mapper = ObjectMapper()
 
     @Test
     fun `should serialize event`() {
@@ -23,7 +25,7 @@ class JsonEventSerializerTest {
         val json = sut.serialize(event)
 
         assertTrue(
-            json.contains("thermostat-1")
+            mapper.readValue(json, DeviceTemperatureReported::class.java).deviceId.contains("thermostat-1")
         )
     }
 }

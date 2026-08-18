@@ -9,6 +9,6 @@ class JsonEventSerializer(
         explicitNulls = false
     }
 ) {
-    inline fun <reified T> serialize(value: T): String =
-        json.encodeToString(value)
+    inline fun <reified T> serialize(value: T): ByteArray =
+        json.encodeToString(value).toByteArray(Charsets.UTF_8)
 }

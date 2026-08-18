@@ -1,6 +1,8 @@
-package com.krizaldis.homepulse.kafka
+package com.krizaldis.homepulse.state.retry
 
-import org.junit.jupiter.api.Assertions.*
+import com.krizaldis.homepulse.state.failure.FailureType
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class RetryPolicyTest {
@@ -13,7 +15,7 @@ class RetryPolicyTest {
 
         val decision = policy.decide(
             currentAttempt = 1,
-            failureType = FailureType.TRANSIENT
+            failureType = FailureType.RETRYABLE
         )
 
         assertTrue(decision.retry)
@@ -29,7 +31,7 @@ class RetryPolicyTest {
         val decision =
             policy.decide(
                 currentAttempt = 3,
-                failureType = FailureType.TRANSIENT
+                failureType = FailureType.RETRYABLE
             )
 
         assertFalse(decision.retry)

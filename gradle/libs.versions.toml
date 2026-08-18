@@ -8,16 +8,20 @@ kotlinxCoroutines = "1.10.2"
 junit = "6.0.0"
 kafka = "4.1.0"
 jackson = "2.19.2"
+
 slf4j = "2.0.17"
+logback = "1.5.18"
+
 micrometer = "1.17.0"
 springBoot = "3.4.2"
 dependencyManagement = "1.1.7"
 nativeBuildTools = "0.10.4"
 graalvm = "23.1.2"
-
+otel = "1.65.0"
+otel-semconv = "1.43.0"
 aws = "2.53.0"
 [libraries]
-
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kafkaClients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }
 
@@ -26,8 +30,6 @@ kotlinxCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-cor
 jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jacksonDatatypeJsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
-
-slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 
 junitBom = { module = "org.junit:junit-bom", version.ref = "junit" }
 
@@ -44,11 +46,22 @@ micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-p
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter" }
 springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web" }
 springBootStarterActuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
-spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation"}
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test" }
 
 spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot" }
 graalvm-native-build-tools = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "graalvm" }
+
+otel-api = { module = "io.opentelemetry:opentelemetry-api", version.ref = "otel" }
+otel-sdk = { module = "io.opentelemetry:opentelemetry-sdk", version.ref = "otel" }
+otel-sdk-trace = { module = "io.opentelemetry:opentelemetry-sdk-trace", version.ref = "otel" }
+otel-sdk-metrics = { module = "io.opentelemetry:opentelemetry-sdk-metrics", version.ref = "otel" }
+otel-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporter-otlp", version.ref = "otel" }
+otel-semconv = { module = "io.opentelemetry.semconv:opentelemetry-semconv", version.ref = "otel-semconv" }
+
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
 
 [plugins]
 springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }

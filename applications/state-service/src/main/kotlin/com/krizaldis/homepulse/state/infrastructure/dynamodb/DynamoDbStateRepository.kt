@@ -1,154 +1,82 @@
 package com.krizaldis.homepulse.state.infrastructure.dynamodb
 
-import com.krizaldis.homepulse.event.DeviceTemperatureReported
-import com.krizaldis.homepulse.state.observability.DynamoDbMetrics
-import io.micrometer.core.instrument.MeterRegistry
-import io.micrometer.core.instrument.Timer
+import com.krizaldis.homepulse.event.DomainEvent
+import com.krizaldis.homepulse.event.TemperatureReading
+import com.krizaldis.homepulse.state.StateConfig
+import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider
+import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
-import software.amazon.awssdk.services.dynamodb.model.Put
-import software.amazon.awssdk.services.dynamodb.model.TransactWriteItem
-import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsRequest
-import software.amazon.awssdk.services.dynamodb.model.TransactionCanceledException
-import software.amazon.awssdk.services.dynamodb.model.Update
+import software.amazon.awssdk.services.dynamodb.model.ConditionalCheckFailedException
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
+import java.net.URI
 import java.time.Instant
 
 class DynamoDbStateRepository(
-    private val client: DynamoDbClient,
-    private val tableName: String,
-    private val registry: MeterRegistry
-) {
+    val config: StateConfig
+) : AutoCloseable {
 
-    private val metrics = DynamoDbMetrics(registry)
+    private val client = buildClient(config)
 
-    fun apply(
-        event: DeviceTemperatureReported
-    ): Boolean {
-        val idempotencyKey = mapOf(
-            "PK" to AttributeValue.builder()
-                .s("IDEMPOTENCY#state")
-                .build(),
-            "SK" to AttributeValue.builder()
-                .s("EVENT#${event.eventId}")
-                .build()
-        )
-
-        val idempotencyItem = mapOf(
-            "PK" to AttributeValue.builder()
-                .s("IDEMPOTENCY#state")
-                .build(),
-
-            "SK" to AttributeValue.builder()
-                .s("EVENT#${event.eventId}")
-                .build(),
-
-            "entityType" to AttributeValue.builder()
-                .s("IDEMPOTENCY")
-                .build(),
-
-            "eventId" to AttributeValue.builder()
-                .s(event.eventId)
-                .build(),
-
-            "deviceId" to AttributeValue.builder()
-                .s(event.deviceId)
-                .build(),
-
-            "processedAt" to AttributeValue.builder()
-                .s(Instant.now().toString())
-                .build()
-        )
-
-        val deviceKey = mapOf(
-            "PK" to AttributeValue.builder()
-                .s("HOME#${event.homeId}")
-                .build(),
-
-            "SK" to AttributeValue.builder()
-                .s("DEVICE#${event.deviceId}")
-                .build()
-        )
-
-        val update = Update.builder()
-            .tableName(tableName)
-            .key(deviceKey)
-            .updateExpression(
-                """
-                SET temperature = :temperature,
-                    lastEventId = :eventId,
-                    lastSequenceNumber = :sequence,
-                    lastEventAt = :eventAt,
-                    updatedAt = :updatedAt,
-                    entityType = :entityType
-                """.trimIndent()
-            )
-            .conditionExpression(
-                """
-                attribute_not_exists(lastSequenceNumber)
-                OR lastSequenceNumber < :sequence
-                """.trimIndent()
-            )
-            .expressionAttributeValues(
-                mapOf(
-                    ":temperature" to AttributeValue.builder()
-                        .n(event.temperature.toString())
-                        .build(),
-
-                    ":eventId" to AttributeValue.builder()
-                        .s(event.eventId)
-                        .build(),
-
-                    ":sequence" to AttributeValue.builder()
-                        .n(event.sequenceNumber.toString())
-                        .build(),
-
-                    ":eventAt" to AttributeValue.builder()
-                        .s(event.occurredAt)
-                        .build(),
-
-                    ":updatedAt" to AttributeValue.builder()
-                        .s(Instant.now().toString())
-                        .build(),
-
-                    ":entityType" to AttributeValue.builder()
-                        .s("DEVICE")
-                        .build()
-                )
-            )
-            .build()
-
-        val transaction = TransactWriteItemsRequest.builder()
-            .transactItems(
-                listOf(
-                    TransactWriteItem.builder()
-                        .put(
-                            Put.builder()
-                                .tableName(tableName)
-                                .item(idempotencyItem)
-                                .conditionExpression(
-                                    "attribute_not_exists(PK)"
-                                )
-                                .build()
-                        )
-                        .build(),
-
-                    TransactWriteItem.builder()
-                        .update(update)
-                        .build()
-                )
-            ).build()
-
-        val sample = Timer.start(registry)
+    fun tryClaimEvent(event: DomainEvent<*>): Boolean {
         return try {
-            metrics.transactions.increment()
-            client.transactWriteItems(transaction)
-            metrics.successfulRequests.increment()
+            client.putItem(
+                PutItemRequest.builder()
+                    .tableName(config.idempotencyTable)
+                    .item(
+                        mapOf(
+                            "eventId" to AttributeValue.builder().s(event.metadata.eventId).build(),
+                            "deviceId" to AttributeValue.builder().s(event.metadata.deviceId).build(),
+                            "claimedAt" to AttributeValue.builder().s(Instant.now().toString()).build()
+                        )
+                    )
+                    .conditionExpression("attribute_not_exists(eventId)")
+                    .build()
+            )
             true
-        } catch (_: TransactionCanceledException) {
-            metrics.failures.increment()
+        } catch (_: ConditionalCheckFailedException) {
             false
-        } finally {
-            sample.stop(metrics.transactionLatency)
         }
+    }
+
+    fun projectTemperature(event: DomainEvent<TemperatureReading>) {
+        val payload = event.payload
+
+        client.putItem(
+            PutItemRequest.builder()
+                .tableName(config.stateTable)
+                .item(
+                    mapOf(
+                        "deviceId" to AttributeValue.builder().s(event.metadata.deviceId).build(),
+                        "eventType" to AttributeValue.builder().s(event.metadata.eventType).build(),
+                        "eventId" to AttributeValue.builder().s(event.metadata.eventId).build(),
+                        "sequenceNumber" to AttributeValue.builder().n(event.metadata.sequenceNumber.toString())
+                            .build(),
+                        "temperatureCelsius" to AttributeValue.builder().n(payload.temperatureCelsius.toString())
+                            .build(),
+                        "humidityPercent" to AttributeValue.builder().n(payload.humidityPercent.toString()).build(),
+                        "occurredAt" to AttributeValue.builder().s(event.metadata.occurredAt.toString()).build(),
+                        "updatedAt" to AttributeValue.builder().s(Instant.now().toString()).build()
+                    )
+                )
+                .build()
+        )
+    }
+
+    private fun buildClient(config: StateConfig): DynamoDbClient {
+        val builder = DynamoDbClient.builder()
+            .region(Region.of(config.awsRegion))
+
+        if (config.dynamoEndpoint != null) {
+            builder
+                .endpointOverride(URI.create(config.dynamoEndpoint))
+                .credentialsProvider(AnonymousCredentialsProvider.create())
+        }
+
+        return builder.build()
+    }
+
+    override fun close() {
+        client.close()
     }
 }

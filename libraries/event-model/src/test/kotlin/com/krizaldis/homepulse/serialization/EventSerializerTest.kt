@@ -2,7 +2,6 @@ package com.krizaldis.homepulse.serialization
 
 import com.krizaldis.homepulse.device.DeviceId
 import com.krizaldis.homepulse.device.HomeId
-import com.krizaldis.homepulse.event.EventFactory
 import com.krizaldis.homepulse.event.TemperatureMeasured
 import com.krizaldis.homepulse.event.TemperatureUnit
 import org.junit.jupiter.api.Assertions.*

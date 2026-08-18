@@ -8,6 +8,6 @@ class JsonEventDeserializer(
         explicitNulls = false
     }
 ) {
-    inline fun <reified T> deserialize(value: String): T =
-        json.decodeFromString(value)
+    inline fun <reified T> deserialize(value: ByteArray?): T =
+        json.decodeFromString(value.toString())
 }

@@ -51,6 +51,22 @@ services:
     networks:
       - homepulse
 
+  kafka-init:
+    image: apache/kafka:4.0.0
+    container_name: homepulse-kafka-init
+    depends_on:
+      - kafka
+    entrypoint: [ "/bin/bash", "-c" ]
+    command: >
+      "
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092
+      --create --if-not-exists --topic home.events.v1 --partitions 6 --replication-factor 1 &&
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092
+      --create --if-not-exists --topic home.events.retry.1m --partitions 6 --replication-factor 1 &&
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092
+      --create --if-not-exists --topic home.events.dlq --partitions 6 --replication-factor 1
+      "
+
   dynamodb:
     image: amazon/dynamodb-local:latest
     container_name: homepulse-dynamodb
@@ -110,3 +126,15 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
     networks:
       - homepulse
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.159.0
+    command:
+      - "--config=/etc/otelcol-contrib/otel-collector.yml"
+
+    volumes:
+      - ./otel/otel-collector.yml:/etc/otelcol-contrib/otel-collector.yml:ro
+
+    ports:
+      - "4317:4317"
+      - "4318:4318"

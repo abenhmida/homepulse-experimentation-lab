@@ -4,13 +4,10 @@ import java.time.Instant
 
 data class EventMetadata(
     val eventId: String,
-    val eventType: EventType,
-    val eventVersion: EventVersion,
-    val occurredAt: Instant,
-    val producedAt: Instant,
-    val homeId: String,
+    val eventType: String,
+    val schemaVersion: Int,
     val deviceId: String,
-    val correlationId: String,
-    val causationId: String?,
-    val source: String
+    val occurredAt: Instant,
+    val sequenceNumber: Long,
+    val correlationId: String? = null,
 )

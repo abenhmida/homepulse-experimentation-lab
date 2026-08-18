@@ -1,0 +1,52 @@
+{
+  "title": "HomePulse Event Pipeline",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Events Processed",
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8},
+      "targets": [
+        {
+          "expr": "rate(homepulse_events_processed_total[1m])",
+          "legendFormat": "processed/s"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Events Failed",
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8},
+      "targets": [
+        {
+          "expr": "rate(homepulse_events_failed_total[1m])",
+          "legendFormat": "failed/s"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Events Retried",
+      "gridPos": {"x": 0, "y": 8, "w": 12, "h": 8},
+      "targets": [
+        {
+          "expr": "rate(homepulse_events_retried_total[1m])",
+          "legendFormat": "retry/s"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "DLQ Events",
+      "gridPos": {"x": 12, "y": 8, "w": 12, "h": 8},
+      "targets": [
+        {
+          "expr": "rate(homepulse_events_dlq_total[1m])",
+          "legendFormat": "dlq/s"
+        }
+      ]
+    }
+  ]
+}
