@@ -1,17 +1,6 @@
-package com.krizaldis.homepulse.kafka
+package com.krizaldis.homepulse.state.retry
 
-import org.apache.kafka.common.protocol.types.Field
-
-enum class FailureType {
-    TRANSIENT,
-    PERMANENT
-}
-
-data class RetryDecision(
-    val retry: Boolean,
-    val attempt: Int,
-    val failureType: FailureType
-)
+import com.krizaldis.homepulse.state.failure.FailureType
 
 class RetryPolicy(
     private val maxAttempts: Int
@@ -39,7 +28,7 @@ class RetryPolicy(
         return RetryDecision(
             retry = true,
             attempt = currentAttempt + 1,
-            failureType = FailureType.TRANSIENT
+            failureType = FailureType.RETRYABLE
         )
     }
 }
