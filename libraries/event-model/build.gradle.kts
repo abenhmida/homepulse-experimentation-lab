@@ -8,8 +8,6 @@ dependencies {
     api(libs.jacksonKotlin)
     api(libs.jacksonDatatypeJsr310)
 
-    implementation(libs.kotlinxSerializationJson)
-
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)
 

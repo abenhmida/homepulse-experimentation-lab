@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.awsDynamodb)
 
     implementation(libs.micrometerCore)
+    implementation(libs.micrometer.commons)
     implementation(libs.micrometer.registry.prometheus)
 }
 

@@ -9,4 +9,8 @@ value class EventVersion(
             "Event version must be greater than zero"
         }
     }
+
+    companion object {
+        val V1 = EventVersion(1)
+    }
 }

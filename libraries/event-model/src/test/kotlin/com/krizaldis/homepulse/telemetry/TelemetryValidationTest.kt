@@ -1,7 +1,7 @@
 package com.krizaldis.homepulse.telemetry
 
-import com.krizaldis.homepulse.event.TemperatureMeasured
-import com.krizaldis.homepulse.event.TemperatureUnit
+
+import com.krizaldis.homepulse.event.TemperatureReported
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -10,9 +10,9 @@ class TelemetryValidationTest {
     fun `temperature outside supported range is rejected`() {
 
         assertThrows<IllegalArgumentException> {
-            TemperatureMeasured(
-                temperature = 999.0,
-                unit = TemperatureUnit.CELSIUS
+            TemperatureReported(
+                temperatureCelsius = 999.0,
+                humidityPercent = 5.5
             )
         }
     }

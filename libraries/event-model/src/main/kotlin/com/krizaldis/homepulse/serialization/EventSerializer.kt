@@ -13,6 +13,10 @@ class EventSerializer {
         payloadType: Class<T>
     ): DomainEvent<T> {
 
+        require(bytes.isNotEmpty()) {
+            "Event payload must not be empty"
+        }
+
         val javaType: JavaType =
             JsonMapper.mapper.typeFactory.constructParametricType(
                 DomainEvent::class.java,

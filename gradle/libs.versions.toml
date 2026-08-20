@@ -40,7 +40,7 @@ awsDynamodb = { module = "software.amazon.awssdk:dynamodb" }
 
 micrometerCore = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
-
+micrometer-commons = { module = "io.micrometer:micrometer-commons", version.ref = "micrometer" }
 
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter" }
 springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web" }
