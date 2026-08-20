@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.springBoot)
+    alias(libs.plugins.kotlinSpring)
     alias(libs.plugins.dependencyManagement)
     id("org.graalvm.buildtools.native")
-    kotlin("plugin.spring") version "2.0.21"
     application
 }
 

@@ -2,12 +2,13 @@ package com.krizaldis.homepulse.kafka
 
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.common.serialization.ByteArrayDeserializer
 import org.apache.kafka.common.serialization.StringDeserializer
 
 class KafkaConsumerFactory(
     private val properties: KafkaProperties
 ) {
-    fun create(): KafkaConsumer<String, String> {
+    fun create(): KafkaConsumer<String, ByteArray> {
         requireNotNull(properties.groupId){
             "groupId is required for consumers"
         }

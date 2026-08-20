@@ -2,35 +2,20 @@ spring:
   application:
     name: state-service
 
-  # Kafka Configuration
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: state-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
-
-# AWS Configuration
 aws:
   dynamodb:
-    region: us-east-1
-    endpoint: http://localhost:8000
+    region: ${AWS_REGION:eu-west-3}
+    endpoint: ${DYNAMODB_ENDPOINT:http://localhost:8000}
 
-# Logging
 logging:
   level:
     com.krizaldis: DEBUG
 
-# Management
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
   metrics:
     export:
       prometheus:

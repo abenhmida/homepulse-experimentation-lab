@@ -8,9 +8,9 @@ import java.time.Duration
 import java.util.concurrent.atomic.AtomicBoolean
 
 class KafkaEventConsumer(
-    private val consumer: KafkaConsumer<String, String>,
+    private val consumer: KafkaConsumer<String, ByteArray>,
     private val topics: Collection<String>,
-    private val handler: (ConsumerRecord<String, String>) -> Unit
+    private val handler: (ConsumerRecord<String, ByteArray>) -> Unit
 ): AutoCloseable {
     private val running = AtomicBoolean(true)
 
@@ -18,7 +18,7 @@ class KafkaEventConsumer(
         consumer.subscribe(topics)
         try {
             while (running.get()) {
-                val records = consumer.poll(Duration.ofSeconds(500))
+                val records = consumer.poll(Duration.ofMillis(500))
                 for (record in records) {
                     handler(record)
                 }

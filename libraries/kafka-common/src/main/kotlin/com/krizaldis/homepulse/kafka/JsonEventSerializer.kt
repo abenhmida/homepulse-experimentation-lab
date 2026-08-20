@@ -1,14 +1,11 @@
 package com.krizaldis.homepulse.kafka
 
-import kotlinx.serialization.json.Json
+import com.krizaldis.homepulse.event.DomainEvent
+import com.krizaldis.homepulse.serialization.EventSerializer
 
-class JsonEventSerializer(
-    val json: Json = Json {
-        ignoreUnknownKeys = true
-        encodeDefaults = true
-        explicitNulls = false
-    }
-) {
-    inline fun <reified T> serialize(value: T): ByteArray =
-        json.encodeToString(value).toByteArray(Charsets.UTF_8)
+class JsonEventSerializer {
+    private val serializer = EventSerializer()
+
+    fun <T> serialize(event: DomainEvent<T>): ByteArray =
+        serializer.serialize(event)
 }

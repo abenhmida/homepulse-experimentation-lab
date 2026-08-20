@@ -10,7 +10,11 @@ data class StateConfig(
     val awsRegion: String = env("AWS_REGION", "eu-west-3"),
     val stateTable: String = env("DYNAMODB_STATE_TABLE", "homepulse-device-state"),
     val idempotencyTable: String = env("DYNAMODB_IDEMPOTENCY_TABLE", "homepulse-idempotency"),
-    val retryAttempts: Int = env("MAX_RETRY_ATTEMPTS", "3").toInt()
+    val retryAttempts: Int = env("MAX_RETRY_ATTEMPTS", "3").toInt(),
+    val autoOffsetReset: String = env("KAFKA_AUTO_OFFSET_RESET", "earliest"),
+    val maxPollRecords: Int = env("KAFKA_MAX_POLL_RECORDS", "50").toInt(),
+    val maxPollIntervalMs: Int = env("KAFKA_MAX_POLL_INTERVAL_MS", "300000").toInt(),
+    val pollTimeoutMs: Long = env("KAFKA_POLL_TIMEOUT_MS", "500").toLong()
 )
 
 private fun env(name: String, default: String): String =

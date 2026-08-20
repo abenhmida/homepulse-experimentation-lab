@@ -33,6 +33,13 @@ class Telemetry private constructor(
     val eventsRetried: LongCounter,
     val eventsDlq: LongCounter
 ) {
+    fun close() {
+        if (openTelemetry is OpenTelemetrySdk) {
+            openTelemetry.sdkTracerProvider.shutdown().join(5, TimeUnit.SECONDS)
+            openTelemetry.sdkMeterProvider.shutdown().join(5, TimeUnit.SECONDS)
+        }
+    }
+
     companion object {
         fun start(config: TelemetryConfig): Telemetry {
             val resource = Resource.getDefault().merge(

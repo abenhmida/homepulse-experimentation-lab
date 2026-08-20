@@ -2,7 +2,6 @@
 # https://docs.gradle.org/current/userguide/version_catalogs.html#sec::toml-dependencies-format
 
 [versions]
-kotlin-gradle-plugin = "2.3.20"
 kotlin = "2.2.20"
 kotlinxCoroutines = "1.10.2"
 junit = "6.0.0"
@@ -16,7 +15,7 @@ micrometer = "1.17.0"
 springBoot = "3.4.2"
 dependencyManagement = "1.1.7"
 nativeBuildTools = "0.10.4"
-graalvm = "23.1.2"
+graalvm = "0.10.4"
 otel = "1.65.0"
 otel-semconv = "1.43.0"
 aws = "2.53.0"
@@ -68,6 +67,7 @@ springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
 dependencyManagement = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
 
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }

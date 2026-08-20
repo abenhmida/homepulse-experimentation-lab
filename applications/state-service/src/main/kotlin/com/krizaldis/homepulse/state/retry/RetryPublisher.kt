@@ -7,6 +7,7 @@ import com.krizaldis.homepulse.state.StateConfig
 import io.opentelemetry.context.Context
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.clients.consumer.ConsumerRecord
 
 class RetryPublisher(
     private val config: StateConfig, private val telemetry: Telemetry
@@ -22,8 +23,12 @@ class RetryPublisher(
         )
     )
 
-    fun publish(key: String, value: ByteArray, targetTopic: String, reason: Throwable) {
-        val record = ProducerRecord(targetTopic, key, value)
+    fun publish(source: ConsumerRecord<String, ByteArray>, targetTopic: String, reason: Throwable) {
+        val record = ProducerRecord(targetTopic, source.key(), source.value())
+        record.headers().add("x-original-topic", source.topic().toByteArray())
+        record.headers().add("x-original-partition", source.partition().toString().toByteArray())
+        record.headers().add("x-original-offset", source.offset().toString().toByteArray())
+        record.headers().add("x-failure-type", reason::class.java.name.toByteArray())
 
         val span = telemetry.tracer.spanBuilder(
             if (targetTopic == config.dlqTopic) {

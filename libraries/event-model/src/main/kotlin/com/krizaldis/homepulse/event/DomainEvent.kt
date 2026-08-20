@@ -4,9 +4,6 @@ data class DomainEvent<T>(
     val metadata: EventMetadata,
     val payload: T
 ) {
-    fun mz() {
-        TODO("Not yet implemented")
-    }
 }
 
 data class TemperatureReading(
