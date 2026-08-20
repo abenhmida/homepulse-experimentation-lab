@@ -58,8 +58,14 @@ data class EnergyMeasured(
     }
 }
 
+/**
+ * Legacy compatibility constants.
+ *
+ * New code should prefer [EventType] so the canonical wire names
+ * have a single source of truth.
+ */
 object EventTypes {
-    const val TEMPERATURE_READING = "home.device.temperature.v1"
-    const val LIGHT_STATE_CHANGED = "home.device.light-state.v1"
-    const val DOOR_STATE_CHANGED = "home.device.door-state.v1"
+    const val TEMPERATURE_READING = "home.device.temperature-reported"
+    const val LIGHT_STATE_CHANGED = "home.device.light-state-changed"
+    const val DOOR_STATE_CHANGED = "home.device.door-state-changed"
 }

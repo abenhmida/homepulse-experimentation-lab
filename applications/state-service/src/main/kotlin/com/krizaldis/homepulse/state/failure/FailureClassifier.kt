@@ -1,5 +1,6 @@
 package com.krizaldis.homepulse.state.failure
 
+import com.krizaldis.homepulse.event.UnknownEventTypeException
 import com.krizaldis.homepulse.state.failure.FailureType.DUPLICATE
 import com.krizaldis.homepulse.state.failure.FailureType.PERMANENT
 import com.krizaldis.homepulse.state.failure.FailureType.RETRYABLE
@@ -15,6 +16,7 @@ class FailureClassifier {
         is ThrottlingException -> RETRYABLE
         is SdkClientException -> RETRYABLE
         is IllegalArgumentException -> PERMANENT
-        else -> PERMANENT
+        is UnknownEventTypeException -> PERMANENT
+        else -> RETRYABLE
     }
 }

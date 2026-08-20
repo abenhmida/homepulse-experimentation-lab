@@ -18,7 +18,7 @@ class RetryPolicyTest {
             failureType = FailureType.RETRYABLE
         )
 
-        assertTrue(decision.retry)
+        assertTrue(decision.shouldRetry)
     }
 
     @Test
@@ -34,6 +34,6 @@ class RetryPolicyTest {
                 failureType = FailureType.RETRYABLE
             )
 
-        assertFalse(decision.retry)
+        assertFalse(decision.shouldRetry)
     }
 }

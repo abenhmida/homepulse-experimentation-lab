@@ -1,20 +1,24 @@
 package com.krizaldis.homepulse.state.retry
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
-import java.time.Instant
-
-@Serializable
 data class RetryEnvelope(
-    val originalTopic: String,
-    val originalPartition: Int,
-    val originalOffset: Long,
-    val attempt: Int,
-    @Contextual
-    val firstFailureAt: Instant,
-    @Contextual
-    val lastFailureAt: Instant,
+    val metadata: RetryMetadata,
+    val payload: ByteArray
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-    val failureType: String,
-    val failureMessage: String?
-)
+        other as RetryEnvelope
+
+        if (metadata != other.metadata) return false
+        if (!payload.contentEquals(other.payload)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = metadata.hashCode()
+        result = 31 * result + payload.contentHashCode()
+        return result
+    }
+}

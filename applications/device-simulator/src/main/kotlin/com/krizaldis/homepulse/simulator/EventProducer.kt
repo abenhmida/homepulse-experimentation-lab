@@ -3,7 +3,7 @@ package com.krizaldis.homepulse.simulator
 import com.krizaldis.homepulse.event.DomainEvent
 import com.krizaldis.homepulse.event.EventMetadata
 import com.krizaldis.homepulse.event.EventTypes
-import com.krizaldis.homepulse.event.TemperatureReading
+import com.krizaldis.homepulse.event.TemperatureReported
 import com.krizaldis.homepulse.kafka.JsonEventSerializer
 import com.krizaldis.homepulse.observability.KafkaPropagation
 import com.krizaldis.homepulse.observability.Telemetry
@@ -57,8 +57,10 @@ class EventProducer(
                 occurredAt = Instant.now(),
                 sequenceNumber = index.toLong() + 1,
                 correlationId = "lab-${UUID.randomUUID()}",
+                homeId = "Home1",
+                causationId = UUID.randomUUID().toString(),
             ),
-            payload = TemperatureReading(
+            payload = TemperatureReported(
                 temperatureCelsius = 19.0 + (index % 10),
                 humidityPercent = 40.0 + (index % 20)
             )

@@ -2,6 +2,7 @@ package com.krizaldis.homepulse.state
 
 import com.krizaldis.homepulse.observability.Telemetry
 import com.krizaldis.homepulse.observability.TelemetryConfig
+import com.krizaldis.homepulse.state.domain.FailureClassifier
 import com.krizaldis.homepulse.state.infrastructure.dynamodb.DynamoDbStateRepository
 import com.krizaldis.homepulse.state.retry.RetryPublisher
 import org.springframework.context.annotation.Bean
@@ -21,6 +22,10 @@ class StateInfrastructureConfiguration {
                 serviceVersion = "0.1.0-SNAPSHOT"
             )
         )
+
+    @Bean
+    fun failureClassifier(): FailureClassifier =
+        FailureClassifier()
 
     @Bean(destroyMethod = "close")
     fun stateRepository(config: StateConfig): DynamoDbStateRepository =

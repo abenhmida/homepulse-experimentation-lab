@@ -20,6 +20,8 @@ otel = "1.65.0"
 otel-semconv = "1.43.0"
 aws = "2.53.0"
 [libraries]
+mokk = { module = "io.mockk:mockk", version = "1.13.17"}
+
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kafkaClients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }

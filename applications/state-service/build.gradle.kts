@@ -70,6 +70,7 @@ dependencies {
     testImplementation(libs.springBootStarterTest)
     testImplementation(platform(libs.junitBom))
     testImplementation(libs.junitJupiter)
+    testImplementation(libs.mokk)
 
     implementation(platform(libs.awssdkBom))
     implementation(libs.awsDynamodb)

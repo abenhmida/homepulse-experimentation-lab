@@ -1,7 +1,7 @@
 package com.krizaldis.homepulse.state.domain
 
-enum class ProjectionResult {
-    APPLIED,
-    DUPLICATE,
-    STALE
+sealed interface ProjectionResult {
+    data object Applied : ProjectionResult
+    data object Duplicate : ProjectionResult
+    data object Stale : ProjectionResult
 }
