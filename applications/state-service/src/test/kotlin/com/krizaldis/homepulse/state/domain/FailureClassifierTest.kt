@@ -1,6 +1,6 @@
 package com.krizaldis.homepulse.state.domain
 
-import com.krizaldis.homepulse.state.failure.FailureType
+import com.krizaldis.homepulse.event.retry.FailureType
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import software.amazon.awssdk.services.dynamodb.model.ThrottlingException

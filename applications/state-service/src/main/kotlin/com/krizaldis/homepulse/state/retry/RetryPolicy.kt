@@ -6,10 +6,7 @@ class RetryPolicy(
     private val jitterStrategy: JitterStrategy = JitterStrategy(config)
 ) {
 
-    fun evaluate(
-        attempt: Int,
-    ): RetryDecision {
-
+    fun evaluate(attempt: Int): RetryDecision {
         require(attempt >= 1) {
             "Retry attempt must be >= 1"
         }
@@ -21,7 +18,6 @@ class RetryPolicy(
         }
 
         val baseDelay = backoffStrategy.calculate(attempt)
-
         val delay = jitterStrategy.apply(baseDelay)
 
         return RetryDecision.Retry(

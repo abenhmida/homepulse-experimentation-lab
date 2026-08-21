@@ -1,6 +1,5 @@
-package com.krizaldis.homepulse.state.retry
+package com.krizaldis.homepulse.event.retry
 
-import com.krizaldis.homepulse.state.failure.FailureType
 import java.time.Instant
 
 data class RetryMetadata(

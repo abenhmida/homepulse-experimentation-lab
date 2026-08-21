@@ -1,6 +1,7 @@
 package com.krizaldis.homepulse.state.retry
 
-import com.krizaldis.homepulse.state.failure.FailureType
+import com.krizaldis.homepulse.event.retry.FailureType
+import com.krizaldis.homepulse.event.retry.RetryMetadata
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.time.Clock

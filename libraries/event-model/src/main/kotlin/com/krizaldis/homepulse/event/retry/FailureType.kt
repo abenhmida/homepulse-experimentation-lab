@@ -1,4 +1,4 @@
-package com.krizaldis.homepulse.state.failure
+package com.krizaldis.homepulse.event.retry
 
 enum class FailureType {
     /**

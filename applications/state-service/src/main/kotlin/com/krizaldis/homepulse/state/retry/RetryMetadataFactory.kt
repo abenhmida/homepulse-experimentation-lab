@@ -1,6 +1,7 @@
 package com.krizaldis.homepulse.state.retry
 
-import com.krizaldis.homepulse.state.failure.FailureType
+import com.krizaldis.homepulse.event.retry.FailureType
+import com.krizaldis.homepulse.event.retry.RetryMetadata
 import java.time.Clock
 import java.time.Instant
 
@@ -36,7 +37,6 @@ class RetryMetadataFactory(
                 exception::class.qualifiedName
                     ?: exception::class.simpleName
                     ?: "UnknownException",
-
             correlationId = correlationId,
             causationId = causationId
         )

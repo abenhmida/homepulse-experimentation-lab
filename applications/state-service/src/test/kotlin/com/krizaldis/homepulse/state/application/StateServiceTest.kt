@@ -11,7 +11,7 @@ import com.krizaldis.homepulse.state.domain.ProjectionResult
 import com.krizaldis.homepulse.state.domain.ProjectionValue
 import com.krizaldis.homepulse.state.domain.RetryableInfrastructureException
 import com.krizaldis.homepulse.state.domain.StateRepository
-import com.krizaldis.homepulse.state.failure.FailureType
+import com.krizaldis.homepulse.event.retry.FailureType
 import com.krizaldis.homepulse.state.projection.ProjectionDispatcher
 import io.mockk.every
 import io.mockk.mockk

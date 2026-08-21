@@ -1,6 +1,6 @@
 package com.krizaldis.homepulse.state.domain
 
-import com.krizaldis.homepulse.state.failure.FailureType
+import com.krizaldis.homepulse.event.retry.FailureType
 import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughputExceededException
 import software.amazon.awssdk.services.dynamodb.model.ThrottlingException

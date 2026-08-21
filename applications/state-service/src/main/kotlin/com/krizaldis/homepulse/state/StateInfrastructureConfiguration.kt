@@ -4,7 +4,6 @@ import com.krizaldis.homepulse.observability.Telemetry
 import com.krizaldis.homepulse.observability.TelemetryConfig
 import com.krizaldis.homepulse.state.domain.FailureClassifier
 import com.krizaldis.homepulse.state.infrastructure.dynamodb.DynamoDbStateRepository
-import com.krizaldis.homepulse.state.retry.RetryPublisher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -30,8 +29,4 @@ class StateInfrastructureConfiguration {
     @Bean(destroyMethod = "close")
     fun stateRepository(config: StateConfig): DynamoDbStateRepository =
         DynamoDbStateRepository(config)
-
-    @Bean(destroyMethod = "close")
-    fun retryPublisher(config: StateConfig, telemetry: Telemetry): RetryPublisher =
-        RetryPublisher(config, telemetry)
 }
