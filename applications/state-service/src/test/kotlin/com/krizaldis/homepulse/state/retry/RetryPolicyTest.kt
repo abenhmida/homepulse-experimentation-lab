@@ -1,39 +1,81 @@
 package com.krizaldis.homepulse.state.retry
 
-import com.krizaldis.homepulse.state.failure.FailureType
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.time.Duration
 
 class RetryPolicyTest {
+    private val config =
+        RetryPolicyConfig(
+            maxAttempts = 5,
+            initialDelay = Duration.ofSeconds(1),
+            maxDelay = Duration.ofSeconds(60),
+            multiplier = 2.0,
+            jitterFactor = 0.0
+        )
+
+    private val policy =
+        RetryPolicy(config)
 
     @Test
-    fun `transient failure should retry`() {
-        val policy = RetryPolicy(
-            maxAttempts = 3
+    fun `attempt within limit should retry`() {
+
+        val result =
+            policy.evaluate(3)
+
+        assertInstanceOf(
+            RetryDecision.Retry::class.java, result
         )
 
-        val decision = policy.decide(
-            currentAttempt = 1,
-            failureType = FailureType.RETRYABLE
+        val retry =
+            result as RetryDecision.Retry
+
+        assertEquals(
+            3,
+            retry.attempt
         )
 
-        assertTrue(decision.shouldRetry)
+        assertEquals(
+            Duration.ofSeconds(4),
+            retry.delay
+        )
     }
 
     @Test
-    fun `maximum attempts should go to dlq`() {
+    fun `attempt above limit should go to dead letter`() {
 
-        val policy = RetryPolicy(
-            maxAttempts = 3
+        val result =
+            policy.evaluate(6)
+
+        assertInstanceOf(
+            RetryDecision.DeadLetter::class.java, result
         )
 
-        val decision =
-            policy.decide(
-                currentAttempt = 3,
-                failureType = FailureType.RETRYABLE
-            )
 
-        assertFalse(decision.shouldRetry)
+        val deadLetter =
+            result as RetryDecision.DeadLetter
+
+        assertEquals(
+            6,
+            deadLetter.attempt
+        )
+    }
+
+    @Test
+    fun `retry delay should never exceed configured maximum`() {
+
+        val result =
+            policy.evaluate(5)
+
+        assertInstanceOf(
+            RetryDecision.Retry::class.java, result
+        )
+
+        val retry =
+            result as RetryDecision.Retry
+
+        assert(
+            retry.delay <= Duration.ofSeconds(60)
+        )
     }
 }
