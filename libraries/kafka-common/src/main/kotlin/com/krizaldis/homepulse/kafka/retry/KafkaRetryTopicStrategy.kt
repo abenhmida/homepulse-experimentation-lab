@@ -1,7 +1,31 @@
-package com.krizaldis.homepulse.state.retry
+package com.krizaldis.homepulse.kafka.retry
 
-import com.krizaldis.homepulse.event.retry.RetryEnvelope
+/**
+ * Kafka-specific mapping from the original topic to retry/DLQ topics.
+ *
+ * Topic naming is deliberately kept out of state-service because a topic is
+ * a Kafka transport concept, not an application-level retry decision.
+ */
+data class KafkaRetryTopicStrategy(
+    val retryTopicSeparator: String = ".retry.",
+    val dlqSuffix: String = ".dlq"
+) {
+    fun retryTopic(originalTopic: String, attempt: Int): String {
+        require(originalTopic.isNotBlank()) {
+            "Original topic must not be blank"
+        }
+        require(attempt >= 1) {
+            "Retry attempt must be >= 1"
+        }
 
-interface KafkaRetryTopicStrategy {
-    fun topicFor(envelope: RetryEnvelope): String
+        return "$originalTopic$retryTopicSeparator$attempt"
+    }
+
+    fun dlqTopic(originalTopic: String): String {
+        require(originalTopic.isNotBlank()) {
+            "Original topic must not be blank"
+        }
+
+        return "$originalTopic$dlqSuffix"
+    }
 }

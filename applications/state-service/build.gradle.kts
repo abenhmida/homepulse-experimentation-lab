@@ -54,7 +54,6 @@ dependencies {
     implementation(libs.springBootStarterActuator)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.micrometer.registry.prometheus)
-    implementation(libs.spring.kafka)
 
     implementation(project(":libraries:event-model"))
     implementation(project(":libraries:kafka-common"))

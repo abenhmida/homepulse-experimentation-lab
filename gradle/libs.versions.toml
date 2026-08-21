@@ -24,14 +24,6 @@ mokk = { module = "io.mockk:mockk", version = "1.13.17"}
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kafkaClients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
-spring-context = { module = "org.springframework:spring-context" }
-spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
-spring-boot-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-boot-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
-spring-boot-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
-spring-boot-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
-
-spring-kafka = { module = "org.springframework.kafka:spring-kafka", version.ref = "kafka" }
 kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }
 
 kotlinxCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }

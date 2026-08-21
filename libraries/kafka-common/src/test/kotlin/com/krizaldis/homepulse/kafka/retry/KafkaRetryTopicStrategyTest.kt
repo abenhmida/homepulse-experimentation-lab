@@ -3,9 +3,9 @@ package com.krizaldis.homepulse.kafka.retry
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class RetryTopicStrategyTest {
+class KafkaRetryTopicStrategyTest {
 
-    private val strategy = RetryTopicStrategy()
+    private val strategy = KafkaRetryTopicStrategy()
 
     @Test
     fun `should generate retry topic`() {
