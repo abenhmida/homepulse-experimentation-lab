@@ -1,10 +1,11 @@
-# Phase 1.11.4 — Step J: Crash & Recovery Laboratory
+# Crash & Recovery Laboratory
 
 This laboratory proves the reliability contract of HomePulse before the system is moved to AWS.
 
 ## Reliability invariants
 
-1. A Kafka message is acknowledged only after processing succeeds, a retry message is published successfully, or a DLQ message is published successfully.
+1. A Kafka message is acknowledged only after processing succeeds, a retry message is published successfully, or a DLQ
+   message is published successfully.
 2. A publisher failure propagates and prevents acknowledgement.
 3. DynamoDB projection and idempotency writes are atomic.
 4. Duplicate delivery is a terminal success for the consumer.
@@ -16,19 +17,19 @@ This laboratory proves the reliability contract of HomePulse before the system i
 
 ## Failure matrix
 
-| Failure point | Expected behavior |
-|---|---|
-| Before processing | Kafka redelivery |
-| During state projection | Retry/DLQ according to classification |
-| After DynamoDB commit | Duplicate delivery is harmless |
-| Retry publication fails | No ACK |
-| DLQ publication fails | No ACK |
+| Failure point                                          | Expected behavior                                   |
+|--------------------------------------------------------|-----------------------------------------------------|
+| Before processing                                      | Kafka redelivery                                    |
+| During state projection                                | Retry/DLQ according to classification               |
+| After DynamoDB commit                                  | Duplicate delivery is harmless                      |
+| Retry publication fails                                | No ACK                                              |
+| DLQ publication fails                                  | No ACK                                              |
 | Retry publication succeeds, process crashes before ACK | Original is redelivered; idempotency protects state |
-| Retry budget exhausted | DLQ |
-| Permanent failure | DLQ |
-| Retry arrives before `nextAttemptAt` | No processing; no ACK |
-| Kafka unavailable | Producer failure propagates |
-| DynamoDB unavailable | Classified as retryable |
+| Retry budget exhausted                                 | DLQ                                                 |
+| Permanent failure                                      | DLQ                                                 |
+| Retry arrives before `nextAttemptAt`                   | No processing; no ACK                               |
+| Kafka unavailable                                      | Producer failure propagates                         |
+| DynamoDB unavailable                                   | Classified as retryable                             |
 
 ## Manual laboratory
 
@@ -131,7 +132,8 @@ process failure
     -> no ACK
 ```
 
-On restart Kafka redelivers the original record. The retry publication may therefore happen again. This is expected at-least-once behavior.
+On restart Kafka redelivers the original record. The retry publication may therefore happen again. This is expected
+at-least-once behavior.
 
 Verify the projection remains correct because DynamoDB idempotency prevents duplicate application of the same event ID.
 
@@ -199,8 +201,6 @@ http://localhost:3000
 
 ## Exit criteria
 
-Phase 1 is considered complete only when:
-
 - unit tests pass;
 - the state service starts successfully;
 - local Kafka and DynamoDB are reachable;
@@ -222,7 +222,8 @@ Start the state service with:
 HOMEPULSE_CHAOS_CRASH_BEFORE_ACK=true ./scripts/run-state-service.sh
 ```
 
-The first successful processing path that reaches an acknowledgement will throw immediately before the acknowledgement call.
+The first successful processing path that reaches an acknowledgement will throw immediately before the acknowledgement
+call.
 
 For the retry path, the sequence becomes:
 

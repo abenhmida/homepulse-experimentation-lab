@@ -1,4 +1,4 @@
-# Phase 1.11.4 — Final Reliability Baseline
+# Reliability Baseline
 
 ## Completed
 
@@ -51,7 +51,7 @@ CRASH AFTER PUBLICATION / BEFORE ACK
 Static consistency checks were performed against the complete uploaded repository.
 YAML files were parsed successfully.
 
-The Gradle wrapper could not be executed in this environment because the Gradle 9.5.1 distribution was not cached and external access to `services.gradle.org` is unavailable. Run the following locally before starting Phase 2:
+The Gradle wrapper could not be executed in this environment because the Gradle 9.5.1 distribution was not cached and external access to `services.gradle.org` is unavailable.
 
 ```bash
 ./gradlew clean test
