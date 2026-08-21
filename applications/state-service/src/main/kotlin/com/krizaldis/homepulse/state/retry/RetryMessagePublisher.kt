@@ -11,7 +11,7 @@ import com.krizaldis.homepulse.kafka.PublishedRecord
  * publication is required; the Kafka adapter owns the transport details.
  */
 interface RetryMessagePublisher {
-    suspend fun publishRetry(envelope: RetryEnvelope): PublishedRecord
+    suspend fun publishRetry(envelope: RetryEnvelope): RetryPublicationResult
 
-    suspend fun publishDeadLetter(envelope: RetryEnvelope): PublishedRecord
+    suspend fun publishDeadLetter(envelope: RetryEnvelope): RetryPublicationResult
 }

@@ -41,9 +41,7 @@ class StateService(
 
         } catch (exception: Exception) {
 
-            val failureType = failureClassifier.classify(exception)
-
-            when (failureType) {
+            when (val failureType = failureClassifier.classify(exception)) {
                 FailureType.RETRYABLE ->
                     ProcessingResult.RetryableFailure(exception)
 

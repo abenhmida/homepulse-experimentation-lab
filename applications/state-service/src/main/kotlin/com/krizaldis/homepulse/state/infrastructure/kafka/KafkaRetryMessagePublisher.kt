@@ -10,6 +10,7 @@ import com.krizaldis.homepulse.kafka.retry.KafkaRetryTopicStrategy
 import com.krizaldis.homepulse.partitioning.KafkaPartitionKey
 import com.krizaldis.homepulse.serialization.JsonMapper
 import com.krizaldis.homepulse.state.retry.RetryMessagePublisher
+import com.krizaldis.homepulse.state.retry.RetryPublicationResult
 
 /**
  * Kafka adapter for the retry publication port.
@@ -30,7 +31,7 @@ class KafkaRetryMessagePublisher(
 
     override suspend fun publishRetry(
         envelope: RetryEnvelope
-    ): PublishedRecord {
+    ): RetryPublicationResult {
         val topic = topicStrategy.retryTopic(
             originalTopic = envelope.retry.originalTopic,
             attempt = envelope.retry.attempt
@@ -44,7 +45,7 @@ class KafkaRetryMessagePublisher(
 
     override suspend fun publishDeadLetter(
         envelope: RetryEnvelope
-    ): PublishedRecord {
+    ): RetryPublicationResult {
         val topic = topicStrategy.dlqTopic(
             originalTopic = envelope.retry.originalTopic
         )
@@ -58,7 +59,7 @@ class KafkaRetryMessagePublisher(
     private suspend fun publish(
         envelope: RetryEnvelope,
         topic: String
-    ): PublishedRecord {
+    ): RetryPublicationResult {
         val eventMetadata = envelope.event.metadata
 
         val headers = buildMap {
@@ -81,7 +82,7 @@ class KafkaRetryMessagePublisher(
 
         val payload = JsonMapper.mapper.writeValueAsString(envelope)
 
-        return eventPublisher.publish(
+        val published = eventPublisher.publish(
             PublishedEvent(
                 topic = topic,
                 key = KafkaPartitionKey.forDevice(
@@ -92,6 +93,12 @@ class KafkaRetryMessagePublisher(
                 payload = payload,
                 headers = headers
             )
+        )
+
+        return RetryPublicationResult(
+            topic = published.topic,
+            partition = published.partition,
+            offset = published.offset
         )
     }
 }

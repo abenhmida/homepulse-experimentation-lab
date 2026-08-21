@@ -1,6 +1,11 @@
 spring:
   application:
     name: state-service
+  kafka:
+    consumer:
+      enable-auto-commit: false
+    listener:
+      ack-mode: manual
 
 aws:
   dynamodb:
@@ -21,6 +26,7 @@ management:
       prometheus:
         enabled: true
 
+
 homepulse:
   retry:
     max-attempts: 5
@@ -40,3 +46,13 @@ homepulse:
     request-timeout-ms: 30000
     linger-ms: 5
     batch-size: 32768
+    topics:
+      events: home.events
+      retry:
+        - home.events.retry.1
+        - home.events.retry.2
+        - home.events.retry.3
+      dlq: home.events.dlq
+
+    consumer:
+      group-id: homepulse-state-retry

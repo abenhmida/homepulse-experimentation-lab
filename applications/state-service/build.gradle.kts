@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.kotlinxSerializationJson)
 
     implementation(libs.kafkaClients)
+    implementation(libs.spring.kafka)
+
     implementation(libs.jacksonDatabind)
     implementation(libs.jacksonKotlin)
     implementation(libs.slf4j.api)
