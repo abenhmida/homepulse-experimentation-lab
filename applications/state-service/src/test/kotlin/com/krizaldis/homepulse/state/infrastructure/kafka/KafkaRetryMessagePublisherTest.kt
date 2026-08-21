@@ -124,7 +124,7 @@ class KafkaRetryMessagePublisherTest {
         )
 
     private class FailingEventPublisher : EventPublisher {
-        override suspend fun publish(event: PublishedEvent): PublishedRecord {
+        override fun publish(event: PublishedEvent): PublishedRecord {
             throw IllegalStateException("Kafka unavailable")
         }
     }
@@ -132,7 +132,7 @@ class KafkaRetryMessagePublisherTest {
     private class RecordingEventPublisher : EventPublisher {
         var event: PublishedEvent? = null
 
-        override suspend fun publish(event: PublishedEvent): PublishedRecord {
+        override fun publish(event: PublishedEvent): PublishedRecord {
             this.event = event
             return PublishedRecord(
                 topic = event.topic,

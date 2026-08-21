@@ -4,7 +4,6 @@ import com.krizaldis.homepulse.event.retry.RetryEnvelope
 import com.krizaldis.homepulse.kafka.EventPublisher
 import com.krizaldis.homepulse.kafka.KafkaEventHeaders
 import com.krizaldis.homepulse.kafka.PublishedEvent
-import com.krizaldis.homepulse.kafka.PublishedRecord
 import com.krizaldis.homepulse.kafka.retry.KafkaRetryHeaderMapper
 import com.krizaldis.homepulse.kafka.retry.KafkaRetryTopicStrategy
 import com.krizaldis.homepulse.partitioning.KafkaPartitionKey
@@ -29,7 +28,7 @@ class KafkaRetryMessagePublisher(
     private val topicStrategy: KafkaRetryTopicStrategy = KafkaRetryTopicStrategy()
 ) : RetryMessagePublisher {
 
-    override suspend fun publishRetry(
+    override fun publishRetry(
         envelope: RetryEnvelope
     ): RetryPublicationResult {
         val topic = topicStrategy.retryTopic(
@@ -43,7 +42,7 @@ class KafkaRetryMessagePublisher(
         )
     }
 
-    override suspend fun publishDeadLetter(
+    override fun publishDeadLetter(
         envelope: RetryEnvelope
     ): RetryPublicationResult {
         val topic = topicStrategy.dlqTopic(
@@ -56,7 +55,7 @@ class KafkaRetryMessagePublisher(
         )
     }
 
-    private suspend fun publish(
+    private fun publish(
         envelope: RetryEnvelope,
         topic: String
     ): RetryPublicationResult {

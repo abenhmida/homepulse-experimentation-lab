@@ -4,6 +4,8 @@ spring:
   kafka:
     consumer:
       enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     listener:
       ack-mode: manual
 
@@ -48,11 +50,9 @@ homepulse:
     batch-size: 32768
     topics:
       events: home.events
-      retry:
-        - home.events.retry.1
-        - home.events.retry.2
-        - home.events.retry.3
+      retry: home.events.retry.1,home.events.retry.2,home.events.retry.3
       dlq: home.events.dlq
 
     consumer:
-      group-id: homepulse-state-retry
+      events-group-id: homepulse-state-service
+      retry-group-id: homepulse-state-retry

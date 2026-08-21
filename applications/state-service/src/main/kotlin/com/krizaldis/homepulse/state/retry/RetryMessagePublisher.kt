@@ -1,7 +1,6 @@
 package com.krizaldis.homepulse.state.retry
 
 import com.krizaldis.homepulse.event.retry.RetryEnvelope
-import com.krizaldis.homepulse.kafka.PublishedRecord
 
 /**
  * Application port for publishing a retry message.
@@ -11,7 +10,7 @@ import com.krizaldis.homepulse.kafka.PublishedRecord
  * publication is required; the Kafka adapter owns the transport details.
  */
 interface RetryMessagePublisher {
-    suspend fun publishRetry(envelope: RetryEnvelope): RetryPublicationResult
+    fun publishRetry(envelope: RetryEnvelope): RetryPublicationResult
 
-    suspend fun publishDeadLetter(envelope: RetryEnvelope): RetryPublicationResult
+    fun publishDeadLetter(envelope: RetryEnvelope): RetryPublicationResult
 }

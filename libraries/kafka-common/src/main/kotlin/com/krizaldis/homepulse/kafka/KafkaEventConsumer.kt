@@ -3,22 +3,29 @@ package com.krizaldis.homepulse.kafka
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.errors.WakeupException
-import java.lang.AutoCloseable
 import java.time.Duration
 import java.util.concurrent.atomic.AtomicBoolean
 
+/**
+ * Small non-Spring consumer adapter used by command-line/lab applications.
+ * A batch is committed only after every record in that poll was handled
+ * successfully.
+ */
 class KafkaEventConsumer(
-    private val consumer: KafkaConsumer<String, ByteArray>,
+    private val consumer: KafkaConsumer<String, String>,
     private val topics: Collection<String>,
-    private val handler: (ConsumerRecord<String, ByteArray>) -> Unit
-): AutoCloseable {
+    private val handler: (ConsumerRecord<String, String>) -> Unit
+) : AutoCloseable {
+
     private val running = AtomicBoolean(true)
 
     fun start() {
         consumer.subscribe(topics)
+
         try {
             while (running.get()) {
                 val records = consumer.poll(Duration.ofMillis(500))
+
                 for (record in records) {
                     handler(record)
                 }
@@ -27,9 +34,9 @@ class KafkaEventConsumer(
                     consumer.commitSync()
                 }
             }
-        } catch (e: WakeupException) {
+        } catch (exception: WakeupException) {
             if (running.get()) {
-                throw e
+                throw exception
             }
         } finally {
             consumer.close()
