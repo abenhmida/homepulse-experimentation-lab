@@ -2,10 +2,10 @@ package com.krizaldis.homepulse.state.application
 
 import com.krizaldis.homepulse.event.DomainEvent
 import com.krizaldis.homepulse.state.domain.FailureClassifier
-import com.krizaldis.homepulse.state.domain.FailureType
 import com.krizaldis.homepulse.state.domain.ProcessingResult
 import com.krizaldis.homepulse.state.domain.ProjectionResult
 import com.krizaldis.homepulse.state.domain.StateRepository
+import com.krizaldis.homepulse.state.failure.FailureType
 import com.krizaldis.homepulse.state.projection.ProjectionDispatcher
 import org.springframework.stereotype.Component
 

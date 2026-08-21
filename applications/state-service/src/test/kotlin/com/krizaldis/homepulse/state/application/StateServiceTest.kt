@@ -4,7 +4,6 @@ import com.krizaldis.homepulse.event.DomainEvent
 import com.krizaldis.homepulse.event.EventMetadata
 import com.krizaldis.homepulse.event.TemperatureReported
 import com.krizaldis.homepulse.state.domain.FailureClassifier
-import com.krizaldis.homepulse.state.domain.FailureType
 import com.krizaldis.homepulse.state.domain.InvalidEventException
 import com.krizaldis.homepulse.state.domain.ProcessingResult
 import com.krizaldis.homepulse.state.domain.ProjectionCommand
@@ -12,6 +11,7 @@ import com.krizaldis.homepulse.state.domain.ProjectionResult
 import com.krizaldis.homepulse.state.domain.ProjectionValue
 import com.krizaldis.homepulse.state.domain.RetryableInfrastructureException
 import com.krizaldis.homepulse.state.domain.StateRepository
+import com.krizaldis.homepulse.state.failure.FailureType
 import com.krizaldis.homepulse.state.projection.ProjectionDispatcher
 import io.mockk.every
 import io.mockk.mockk
