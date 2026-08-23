@@ -4,39 +4,20 @@ locals {
 
 module "vpc" {
   source      = "../../modules/vpc"
-  aws_region  = var.aws_region
-  environment = var.environment
 
-
-  availability_zones = [
-    "eu-west-3a",
-    "eu-west-3b",
-    "eu-west-3c"
-  ]
+  availability_zones = var.availability_zones
   name = local.name_prefix
-  private_app_subnets = [
-    "10.20.10.0/24",
-    "10.20.11.0/24",
-    "10.20.12.0/24"
-  ]
-  private_msk_subnets = [
-    "10.20.20.0/24",
-    "10.20.21.0/24",
-    "10.20.22.0/24"
-  ]
-  public_subnets = [
-    "10.20.0.0/24",
-    "10.20.1.0/24",
-    "10.20.2.0/24"
-  ]
+  private_app_subnets = var.private_app_subnets
+  private_msk_subnets = var.private_msk_subnets
+  public_subnets = var.public_subnets
 
-  enable_nat_gateway = true
+  enable_nat_gateway = var.enable_nat_gateway
   # Cost-optimized dev topology.
   single_nat_gateway = true
 
-  enable_dynamodb_endpoint = true
+  enable_dynamodb_endpoint = var.enable_dynamodb_endpoint
 
-  enable_flow_logs = true
+  enable_flow_logs = var.enable_flow_logs
 
   flow_log_retention_days = 7
 

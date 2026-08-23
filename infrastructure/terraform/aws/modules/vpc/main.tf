@@ -29,7 +29,7 @@ resource "aws_subnet" "public" {
   count = length(var.availability_zones)
 
   availability_zone = var.availability_zones[count.index]
-  cidr_block = var.public_subnets[count.index]
+  cidr_block        = var.public_subnets[count.index]
 
   map_public_ip_on_launch = true
 
@@ -44,10 +44,10 @@ resource "aws_subnet" "public" {
 
 resource "aws_subnet" "private_app" {
   vpc_id = aws_vpc.this.id
-  count = length(var.availability_zones)
+  count  = length(var.availability_zones)
 
   availability_zone = var.availability_zones[count.index]
-  cidr_block = var.private_app_subnets[count.index]
+  cidr_block        = var.private_app_subnets[count.index]
 
   map_public_ip_on_launch = false
 
@@ -66,7 +66,7 @@ resource "aws_subnet" "private_msk" {
   count = length(var.availability_zones)
 
   availability_zone = var.availability_zones[count.index]
-  cidr_block = var.private_msk_subnets[count.index]
+  cidr_block        = var.private_msk_subnets[count.index]
 
   map_public_ip_on_launch = false
 
@@ -94,12 +94,12 @@ resource "aws_route" "public_internet" {
   route_table_id = aws_route_table.public.id
 
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.this.id
+  gateway_id             = aws_internet_gateway.this.id
 }
 
 resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
-  count = length(aws_subnet.public)
+  count          = length(aws_subnet.public)
 
   subnet_id = aws_subnet.public[count.index].id
 }
@@ -140,7 +140,7 @@ resource "aws_nat_gateway" "this" {
 
 resource "aws_route_table" "private_app" {
   vpc_id = aws_vpc.this.id
-  count = length(var.availability_zones)
+  count  = length(var.availability_zones)
 
   tags = merge(
     local.common_tags,
@@ -153,13 +153,12 @@ resource "aws_route_table" "private_app" {
 resource "aws_route" "private_app_internet" {
   route_table_id = aws_route_table.private_app[count.index].id
 
-  count = var.enable_nat_gateway
-    ? length(var.availability_zones) : 0
+  count = var.enable_nat_gateway ? length(var.availability_zones) : 0
 
   destination_cidr_block = "0.0.0.0/0"
 
   nat_gateway_id = aws_nat_gateway.this[
-    var.single_nat_gateway ? 0 : count.index + 1
+    var.single_nat_gateway ? 0 : count.index
   ].id
 }
 
@@ -195,8 +194,8 @@ resource "aws_route_table_association" "private_msk" {
 resource "aws_vpc_endpoint" "dynamodb" {
   vpc_id = aws_vpc.this.id
 
-  count = var.enable_dynamodb_endpoint ? 1 : 0
-  service_name = "com.amazonaws.${data.aws_region.current.name}.dynamodb"
+  count        = var.enable_dynamodb_endpoint ? 1 : 0
+  service_name = "com.amazonaws.${data.aws_region.current.region}.dynamodb"
 
   vpc_endpoint_type = "Gateway"
 

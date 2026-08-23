@@ -7,3 +7,13 @@ build
 # Ignore Kotlin plugin data
 .kotlin
 .idea
+infrastructure/terraform/aws/environments/dev/.terraform
+infrastructure/terraform/aws/environments/local/.terraform
+**/terraform.tfstate
+
+
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+crash.*.log

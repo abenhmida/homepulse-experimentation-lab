@@ -15,7 +15,7 @@ variable "environment" {
 
   validation {
     condition = contains(
-      ["dev", "staging", "prod"],
+      ["local", "dev", "staging", "prod"],
       var.environment
     )
 
@@ -41,18 +41,8 @@ variable "enable_flow_logs" {
   default     = true
 }
 
-variable "availability_zones" {
-  type = list(string)
-}
-
-variable "public_subnets" {
-  type = list(string)
-}
-
-variable "private_app_subnets" {
-  type = list(string)
-}
-
-variable "private_msk_subnets" {
-  type = list(string)
+variable "create_igw" {
+  description = "Whether to create the Internet Gateway."
+  type        = bool
+  default     = true
 }
