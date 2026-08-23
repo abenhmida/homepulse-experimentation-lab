@@ -1,23 +1,24 @@
 variable "aws_region" {
-  description = "AWS region"
-  type = string
+  type        = string
+  description = "AWS deployment region."
+}
+
+variable "project_name" {
+  type        = string
+  description = "Project name."
+  default     = "homepulse"
 }
 
 variable "environment" {
-  description = "Deployment environment"
-  type = string
+  type        = string
+  description = "Deployment environment."
 
   validation {
     condition = contains(
       ["dev", "staging", "prod"],
       var.environment
     )
+
     error_message = "Environment must be dev, staging, or prod."
   }
-}
-
-variable "project_name" {
-  description = "Project name"
-  type = string
-  default = "homeplus"
 }
