@@ -5,27 +5,11 @@ locals {
 module "vpc" {
   source = "../../modules/vpc"
 
-  availability_zones = [
-    "eu-west-3a",
-    "eu-west-3b",
-    "eu-west-3c"
-  ]
+  availability_zones = var.availability_zones
   name = local.name_prefix
-  private_app_subnets = [
-    "10.20.10.0/24",
-    "10.20.11.0/24",
-    "10.20.12.0/24"
-  ]
-  private_msk_subnets = [
-    "10.20.20.0/24",
-    "10.20.21.0/24",
-    "10.20.22.0/24"
-  ]
-  public_subnets = [
-    "10.20.0.0/24",
-    "10.20.1.0/24",
-    "10.20.2.0/24"
-  ]
+  private_app_subnets = var.private_app_subnets
+  private_msk_subnets = var.private_msk_subnets
+  public_subnets = var.public_subnets
 
   enable_nat_gateway = false
   # Cost-optimized dev topology.
