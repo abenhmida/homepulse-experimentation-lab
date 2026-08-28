@@ -33,3 +33,25 @@ module "security_groups" {
 
   name_prefix = local.name_prefix
 }
+
+data "aws_caller_identity" "current" {}
+
+module "iam" {
+  source = "../../modules/iam"
+
+  name_prefix = "${var.project_name}-${var.environment}"
+  environment = var.environment
+
+  dynamodb_table_arns = var.dynamodb_table_arns
+
+  # Intentionally empty until Phase 2.7/MSK exists.
+  msk_cluster_arns = []
+  msk_topic_arns   = []
+  msk_group_arns   = []
+
+  cloudwatch_metric_namespace = "HomePulse"
+
+  tags = {
+    project = var.project_name
+  }
+}

@@ -56,3 +56,9 @@ variable "private_app_subnets" {
 variable "private_msk_subnets" {
   type = list(string)
 }
+
+variable "dynamodb_table_arns" {
+  description = "DynamoDB tables the HomePulse application may access."
+  type        = list(string)
+  default     = []
+}
